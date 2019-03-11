@@ -61,10 +61,14 @@ namespace FileinFolder
                     tsslFileName.Text = e.Message;
                     break;
                 case MessageType.Message:
-                    MessageBox.Show(e.Message+$"用时");
+                    var messageshow = e.Message + $",用时 {(Environment.TickCount - starttime) / 1000} 秒";
+                    tsslFileName.Text = messageshow;
+                    btStart.Text = "运行";
+                    MessageBox.Show(messageshow);
                     System.Diagnostics.Process.Start("explorer.exe", OutputPath);
                     break;
                 case MessageType.Error:
+                    btStart.Text = "运行";
                     MessageBox.Show(e.Message);
                     break;
             }
@@ -163,25 +167,32 @@ namespace FileinFolder
                 tbOutputPath.Text = OutputPath;
         }
 
-        List<string> Extention = new List<string>();
+        static List<string> Extention = new List<string>();
         private void btFileType_Click(object sender, EventArgs e)
         {
-            Extention = FileExtension("选择要提取的拓展名类型");
-            foreach (var extention in Extention)
+            var extentions = FileExtension("选择要提取的拓展名类型");
+            foreach (var extention in extentions)
             {
-                if(!lbFileType.Items.Contains(extention))
-                    lbFileType.Items.Add(extention); 
+                if (!lbFileType.Items.Contains(extention))
+                {
+                    lbFileType.Items.Add(extention);
+                    Extention.Add(extention);
+                }
             }
         }
 
         protected Thread runThread = null; //执行线程
-        int starttime = 0;
+        float starttime = 0; //计时
         private void btStart_Click(object sender, EventArgs e)
         {
-            starttime = Environment.TickCount;
-            FileDir.Clear();
-            runThread = new Thread(Threadrunning);
-            runThread.Start();
+            if (btStart.Text == "运行")
+            {
+                btStart.Text = "运行中";
+                starttime = Environment.TickCount;
+                FileDir.Clear();
+                runThread = new Thread(Threadrunning);
+                runThread.Start();
+            }
         }
 
         private void Threadrunning()
@@ -210,8 +221,13 @@ namespace FileinFolder
         /// <param name="FolderPath"></param>
         private void GetSubFolders(string FolderPath)
         {
-            DirectoryInfo dicInfo = new DirectoryInfo(FolderPath);
-            DirectoryInfo[] dirs = dicInfo.GetDirectories();
+            
+            try
+            {
+                DirectoryInfo dicInfo = new DirectoryInfo(FolderPath);
+                DirectoryInfo[] dirs = dicInfo.GetDirectories();
+            
+            
             if (dirs.Count() > 0)
             {
                 foreach (var dir in dirs)
@@ -222,6 +238,8 @@ namespace FileinFolder
                     Thread.Sleep(1);
                 }
             }
+            }
+            catch { };
         }
 
         static Dictionary<string, string> FileDir = new Dictionary<string, string>();
@@ -233,15 +251,19 @@ namespace FileinFolder
             //var pattern = sTypeFile();
             foreach (var folder in AllFolder)
             {
-                DirectoryInfo dicInfo = new DirectoryInfo(folder);
-                FileInfo[] dirs = TypeFile()
- .SelectMany(i => dicInfo.GetFiles(i, SearchOption.TopDirectoryOnly))
- .Distinct().ToArray();
-                foreach (var dir in dirs)
+                try
                 {
-                    FileDir.Add(dir.FullName, dir.Name);
-                    Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
+                    DirectoryInfo dicInfo = new DirectoryInfo(folder);
+                    FileInfo[] dirs = TypeFile()
+     .SelectMany(i => dicInfo.GetFiles(i, SearchOption.TopDirectoryOnly))
+     .Distinct().ToArray();
+                    foreach (var dir in dirs)
+                    {
+                        FileDir.Add(dir.FullName, dir.Name);
+                        Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
+                    }
                 }
+                catch { };
             }
         }
 
