@@ -17,7 +17,7 @@ namespace FileinFolder
         public FileInFolder()
         {
             InitializeComponent();
-            Config.messageClass.OnMessageSend+= new MessageEventHandler(SubthreadMessageReceive);
+            Config.messageClass.OnMessageSend += new MessageEventHandler(SubthreadMessageReceive);
             FloderPath = AppDomain.CurrentDomain.BaseDirectory;
             OutputPath = AppDomain.CurrentDomain.BaseDirectory;
             tbFolderPath.Text = FloderPath;
@@ -71,7 +71,7 @@ namespace FileinFolder
                     tsslFileName.Text = messageshow;
                     btStart.Text = "运行";
                     MessageBox.Show(messageshow);
-                    if(tsmiIfOpenFolder.Checked)
+                    if (tsmiIfOpenFolder.Checked)
                         System.Diagnostics.Process.Start("explorer.exe", OutputPath);
                     break;
                 case MessageType.Error:
@@ -80,7 +80,7 @@ namespace FileinFolder
                     break;
             }
 
-            
+
         }
         private void SubthreadMessageReceive(MessageEventArgs e)
         {
@@ -165,7 +165,7 @@ namespace FileinFolder
         private void btSelectFolder_Click(object sender, EventArgs e)
         {
             FloderPath = SelectFolder("选择目标文件夹");
-            if(!string.IsNullOrWhiteSpace(FloderPath))
+            if (!string.IsNullOrWhiteSpace(FloderPath))
                 tbFolderPath.Text = FloderPath;
         }
 
@@ -221,16 +221,19 @@ namespace FileinFolder
 
         static List<string> AllFolder = new List<string>();
         static bool loop = true;
+        public bool isSearchFinished { get; set; } = false;
+
         private void ThreadCopy()
         {
             int count = 0;
-            int StopCount = 0;
+            isSearchFinished = false;
             loop = true;
             while (loop)
             {
-                if(FileDir.Count > 0)
+                if (FileDir.Count > 0)
                 {
-                    var newDir =new Dictionary<string,string>(FileDir);
+                    Dictionary<string, string> newDir = new Dictionary<string, string>();
+                    try { newDir = new Dictionary<string, string>(FileDir); } catch { };
                     foreach (var file in newDir)
                     {
                         if (lbFileType.Items.Count == 0)
@@ -241,7 +244,7 @@ namespace FileinFolder
                         try
                         {
                             File.Copy(file.Key, OutputPath + "\\" + file.Value, true);
-                            FileDir.Remove(file.Key);  
+                            FileDir.Remove(file.Key);
                         }
                         catch { FileDir.Remove(file.Key); };
                         count++;
@@ -249,15 +252,15 @@ namespace FileinFolder
                     }
                 }
                 else
-                {                
+                {
                     Thread.Sleep(1);
-                    if (++StopCount > 3000 && FileDir.Count<1)
+                    if (isSearchFinished && FileDir.Count < 1)
                         loop = false;
                 }
             }
             Config.messageClass.MessageSend(new MessageEventArgs($"运行完成,共复制{count}个文件对象", MessageType.Message));
 
-          
+
         }
 
         /// <summary>
@@ -281,7 +284,7 @@ namespace FileinFolder
                 }
             }
             catch { };
-           
+
         }
 
         static Dictionary<string, string> FileDir = new Dictionary<string, string>();
@@ -307,7 +310,9 @@ namespace FileinFolder
                 }
                 catch { };
             }
-            
+            isSearchFinished = true;
+
+
         }
 
         private string[] TypeFile()

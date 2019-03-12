@@ -31,7 +31,7 @@ namespace FileinFolder
                 case MessageType.RunTime:
                     break;
                 case MessageType.FolderPath:
-                    listBoxShow.Items.Add(e.Message); 
+                    listBoxShow.Items.Add(e.Message);
                     break;
                 case MessageType.FilePath:
                     listBoxShow.Items.Add(e.Message);
@@ -65,7 +65,7 @@ namespace FileinFolder
         static int index = -1;
         private void SortTarget()
         {
-            index = listBoxShow.FindString(tbTargetString.Text, index+1);
+            index = listBoxShow.FindString(tbTargetString.Text, index + 1);
             if (index != -1)
             {
                 TargetIndex.Add(index);
@@ -88,7 +88,7 @@ namespace FileinFolder
             firstClick = false;
             if (TargetIndex.Count > 1)
             {
-                listBoxShow.SelectedIndex=TargetIndex[++SelectIndex];
+                listBoxShow.SelectedIndex = TargetIndex[++SelectIndex];
             }
         }
 
@@ -97,7 +97,7 @@ namespace FileinFolder
             if (firstClick)
                 runThread = new Thread(SortTarget);
             firstClick = false;
-            if (TargetIndex.Count > 1 && SelectIndex>0)
+            if (TargetIndex.Count > 1 && SelectIndex > 0)
             {
                 listBoxShow.SelectedIndex = TargetIndex[--SelectIndex];
             }
@@ -157,24 +157,35 @@ namespace FileinFolder
 
         private void SaveTextAs_Click(object sender, EventArgs e)
         {
-            OpenFileDialog op = new OpenFileDialog();
-            op.Filter = "文本(*.txt)|*.txt";
-            op.FileName = "日志" + DateTime.Now.ToString("yyyyMMddHHmmss") + "";
-            if (op.ShowDialog() == DialogResult.OK)
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "(文本)*.txt|*.txt";
+            if (DialogResult.OK == sfd.ShowDialog())
             {
-                string str = "";
-                if (listBoxShow.Items.Count < 1)
+                try
                 {
-                    return;
+                    string str = "";
+                    if (listBoxShow.Items.Count < 1)
+                    {
+                        return;
+                    }
+                    for (int i = 0; i < listBoxShow.Items.Count; i++)
+                    {
+                        str += listBoxShow.Items[i].ToString() + "\r\n";
+                    }
+                    StreamWriter sw = new StreamWriter(sfd.FileName, true);
+                    sw.WriteLine(str);
+                    sw.Close();
                 }
-                for (int i = 0; i < listBoxShow.Items.Count; i++)
+                catch (Exception ex)
                 {
-                    str += listBoxShow.Items[i].ToString() + "\r\n";
+                    MessageBox.Show($"保存日志文件[{sfd.FileName}]失败,异常信息:[{ex.Message}]");
                 }
-                StreamWriter sw = new StreamWriter(op.FileName, true);
-                sw.WriteLine(str);
-                sw.Close();
             }
+        }
+
+        private void ClearAllText_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

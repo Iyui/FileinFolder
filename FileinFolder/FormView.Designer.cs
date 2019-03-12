@@ -31,10 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listBoxShow = new System.Windows.Forms.ListBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tbTargetString = new System.Windows.Forms.TextBox();
-            this.btCloseStatusStrip = new System.Windows.Forms.Button();
-            this.btSortNext = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CopySelectedText = new System.Windows.Forms.ToolStripMenuItem();
             this.CopyAllText = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,6 +39,10 @@
             this.tsmiSortString = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiOpenFileLocation = new System.Windows.Forms.ToolStripMenuItem();
             this.btSortLast = new System.Windows.Forms.Button();
+            this.btSortNext = new System.Windows.Forms.Button();
+            this.btCloseStatusStrip = new System.Windows.Forms.Button();
+            this.tbTargetString = new System.Windows.Forms.TextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,41 +91,6 @@
             this.listBoxShow.Size = new System.Drawing.Size(800, 449);
             this.listBoxShow.TabIndex = 10;
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, -22);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // tbTargetString
-            // 
-            this.tbTargetString.Location = new System.Drawing.Point(76, 6);
-            this.tbTargetString.Name = "tbTargetString";
-            this.tbTargetString.Size = new System.Drawing.Size(724, 21);
-            this.tbTargetString.TabIndex = 1;
-            // 
-            // btCloseStatusStrip
-            // 
-            this.btCloseStatusStrip.Location = new System.Drawing.Point(2, 6);
-            this.btCloseStatusStrip.Name = "btCloseStatusStrip";
-            this.btCloseStatusStrip.Size = new System.Drawing.Size(22, 22);
-            this.btCloseStatusStrip.TabIndex = 2;
-            this.btCloseStatusStrip.Text = "×";
-            this.btCloseStatusStrip.UseVisualStyleBackColor = true;
-            this.btCloseStatusStrip.Click += new System.EventHandler(this.btCloseStatusStrip_Click);
-            // 
-            // btSortNext
-            // 
-            this.btSortNext.Location = new System.Drawing.Point(48, 6);
-            this.btSortNext.Name = "btSortNext";
-            this.btSortNext.Size = new System.Drawing.Size(22, 22);
-            this.btSortNext.TabIndex = 3;
-            this.btSortNext.Text = "↓";
-            this.btSortNext.UseVisualStyleBackColor = true;
-            this.btSortNext.Click += new System.EventHandler(this.btSortNext_Click);
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -136,32 +101,33 @@
             this.tsmiSortString,
             this.tsmiOpenFileLocation});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(166, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 158);
             // 
             // CopySelectedText
             // 
             this.CopySelectedText.Name = "CopySelectedText";
-            this.CopySelectedText.Size = new System.Drawing.Size(213, 22);
+            this.CopySelectedText.Size = new System.Drawing.Size(180, 22);
             this.CopySelectedText.Text = "复制选中行";
             this.CopySelectedText.Click += new System.EventHandler(this.CopySelectedText_Click);
             // 
             // CopyAllText
             // 
             this.CopyAllText.Name = "CopyAllText";
-            this.CopyAllText.Size = new System.Drawing.Size(213, 22);
+            this.CopyAllText.Size = new System.Drawing.Size(180, 22);
             this.CopyAllText.Text = "复制全部";
             this.CopyAllText.Click += new System.EventHandler(this.CopyAllText_Click);
             // 
             // ClearAllText
             // 
             this.ClearAllText.Name = "ClearAllText";
-            this.ClearAllText.Size = new System.Drawing.Size(172, 22);
+            this.ClearAllText.Size = new System.Drawing.Size(180, 22);
             this.ClearAllText.Text = "清空全部";
+            this.ClearAllText.Click += new System.EventHandler(this.ClearAllText_Click);
             // 
             // SaveTextAs
             // 
             this.SaveTextAs.Name = "SaveTextAs";
-            this.SaveTextAs.Size = new System.Drawing.Size(213, 22);
+            this.SaveTextAs.Size = new System.Drawing.Size(180, 22);
             this.SaveTextAs.Text = "另存为文档";
             this.SaveTextAs.Click += new System.EventHandler(this.SaveTextAs_Click);
             // 
@@ -169,14 +135,14 @@
             // 
             this.tsmiSortString.Enabled = false;
             this.tsmiSortString.Name = "tsmiSortString";
-            this.tsmiSortString.Size = new System.Drawing.Size(165, 22);
+            this.tsmiSortString.Size = new System.Drawing.Size(180, 22);
             this.tsmiSortString.Text = "搜索";
             this.tsmiSortString.Click += new System.EventHandler(this.tsmiSortString_Click);
             // 
             // tsmiOpenFileLocation
             // 
             this.tsmiOpenFileLocation.Name = "tsmiOpenFileLocation";
-            this.tsmiOpenFileLocation.Size = new System.Drawing.Size(165, 22);
+            this.tsmiOpenFileLocation.Size = new System.Drawing.Size(180, 22);
             this.tsmiOpenFileLocation.Text = "打开文件/文件夹";
             this.tsmiOpenFileLocation.Click += new System.EventHandler(this.tsmiOpenFileLocation_Click);
             // 
@@ -189,6 +155,41 @@
             this.btSortLast.Text = "↑";
             this.btSortLast.UseVisualStyleBackColor = true;
             this.btSortLast.Click += new System.EventHandler(this.btSortLast_Click);
+            // 
+            // btSortNext
+            // 
+            this.btSortNext.Location = new System.Drawing.Point(48, 6);
+            this.btSortNext.Name = "btSortNext";
+            this.btSortNext.Size = new System.Drawing.Size(22, 22);
+            this.btSortNext.TabIndex = 3;
+            this.btSortNext.Text = "↓";
+            this.btSortNext.UseVisualStyleBackColor = true;
+            this.btSortNext.Click += new System.EventHandler(this.btSortNext_Click);
+            // 
+            // btCloseStatusStrip
+            // 
+            this.btCloseStatusStrip.Location = new System.Drawing.Point(2, 6);
+            this.btCloseStatusStrip.Name = "btCloseStatusStrip";
+            this.btCloseStatusStrip.Size = new System.Drawing.Size(22, 22);
+            this.btCloseStatusStrip.TabIndex = 2;
+            this.btCloseStatusStrip.Text = "×";
+            this.btCloseStatusStrip.UseVisualStyleBackColor = true;
+            this.btCloseStatusStrip.Click += new System.EventHandler(this.btCloseStatusStrip_Click);
+            // 
+            // tbTargetString
+            // 
+            this.tbTargetString.Location = new System.Drawing.Point(76, 6);
+            this.tbTargetString.Name = "tbTargetString";
+            this.tbTargetString.Size = new System.Drawing.Size(724, 21);
+            this.tbTargetString.TabIndex = 1;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, -22);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // FormView
             // 
