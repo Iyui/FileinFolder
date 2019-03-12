@@ -36,6 +36,7 @@
             this.菜单ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.同名覆盖ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiIfOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiView = new System.Windows.Forms.ToolStripMenuItem();
             this.tbOutputPath = new System.Windows.Forms.TextBox();
             this.tbFolderPath = new System.Windows.Forms.TextBox();
             this.btStart = new System.Windows.Forms.Button();
@@ -44,9 +45,9 @@
             this.lbFileType = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslFileName = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timer = new System.Windows.Forms.Timer(this.components);
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.IyuiLink = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -121,7 +122,8 @@
             this.菜单ToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.菜单ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.同名覆盖ToolStripMenuItem,
-            this.tsmiIfOpenFolder});
+            this.tsmiIfOpenFolder,
+            this.tsmiView});
             this.菜单ToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.菜单ToolStripMenuItem.Name = "菜单ToolStripMenuItem";
             this.菜单ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
@@ -145,6 +147,16 @@
             this.tsmiIfOpenFolder.Name = "tsmiIfOpenFolder";
             this.tsmiIfOpenFolder.Size = new System.Drawing.Size(196, 22);
             this.tsmiIfOpenFolder.Text = "完成后打开输出文件夹";
+            // 
+            // tsmiView
+            // 
+            this.tsmiView.Checked = true;
+            this.tsmiView.CheckOnClick = true;
+            this.tsmiView.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tsmiView.Enabled = false;
+            this.tsmiView.Name = "tsmiView";
+            this.tsmiView.Size = new System.Drawing.Size(196, 22);
+            this.tsmiView.Text = "查看细节";
             // 
             // tbOutputPath
             // 
@@ -222,7 +234,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(271, 21);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(302, 21);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.Text = "    ";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -281,6 +293,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiIfOpenFolder;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel IyuiLink;
+        private System.Windows.Forms.ToolStripMenuItem tsmiView;
     }
 }
 

@@ -22,6 +22,12 @@ namespace FileinFolder
             OutputPath = AppDomain.CurrentDomain.BaseDirectory;
             tbFolderPath.Text = FloderPath;
             tbOutputPath.Text = OutputPath;
+            this.FormClosing += FileInFolder_FormClosing;
+        }
+
+        private void FileInFolder_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            loop = false;
         }
 
         //输入路径
@@ -73,6 +79,7 @@ namespace FileinFolder
                     MessageBox.Show(e.Message);
                     break;
             }
+
             
         }
         private void SubthreadMessageReceive(MessageEventArgs e)
@@ -183,39 +190,75 @@ namespace FileinFolder
             }
         }
 
-        protected Thread runThread = null; //执行线程
+        //protected Thread runThread = null; //执行线程
         float starttime = 0; //计时
         private void btStart_Click(object sender, EventArgs e)
         {
             if (btStart.Text == "运行")
             {
+
                 btStart.Text = "运行中";
-                starttime = Environment.TickCount;
                 FileDir.Clear();
-                runThread = new Thread(Threadrunning);
-                runThread.Start();
+                if (tsmiView.Checked)
+                {
+                    FormView fv = new FormView();
+                    fv.Show();
+                }
+                Thread.Sleep(1000);
+                starttime = Environment.TickCount;
+                ThreadGetFileFolder();
             }
         }
 
-        private void Threadrunning()
+        private void ThreadGetFileFolder()
         {
             GetSubFolders(FloderPath);
-            GetAppointTypeFile();
-            foreach (var file in FileDir)
-            {
-                if (lbFileType.Items.Count == 0)
-                {
-                    Config.messageClass.MessageSend(new MessageEventArgs("文件类型不能为空", MessageType.Error));
-                    return;
-                }
-                File.Copy(file.Key, OutputPath + "\\" + file.Value, true);
-                Config.messageClass.MessageSend(new MessageEventArgs("复制:" + file.Key, MessageType.FilePath));
-                Thread.Sleep(1);
-            }
-            Config.messageClass.MessageSend(new MessageEventArgs($"运行完成,共复制{FileDir.Count()}个文件对象", MessageType.Message));
+            var runThread = new Thread(GetAppointTypeFile);
+            runThread.Start();
+            var copyThread = new Thread(ThreadCopy);
+            copyThread.Start();
         }
 
         static List<string> AllFolder = new List<string>();
+        static bool loop = true;
+        private void ThreadCopy()
+        {
+            int count = 0;
+            int StopCount = 0;
+            loop = true;
+            while (loop)
+            {
+                if(FileDir.Count > 0)
+                {
+                    var newDir =new Dictionary<string,string>(FileDir);
+                    foreach (var file in newDir)
+                    {
+                        if (lbFileType.Items.Count == 0)
+                        {
+                            Config.messageClass.MessageSend(new MessageEventArgs("文件类型不能为空", MessageType.Error));
+                            return;
+                        }
+                        try
+                        {
+                            File.Copy(file.Key, OutputPath + "\\" + file.Value, true);
+                            FileDir.Remove(file.Key);  
+                        }
+                        catch { FileDir.Remove(file.Key); };
+                        count++;
+                        Config.messageClass.MessageSend(new MessageEventArgs("复制:" + file.Key, MessageType.FilePath));
+                    }
+                }
+                else
+                {                
+                    Thread.Sleep(1);
+                    if (++StopCount > 3000 && FileDir.Count<1)
+                        loop = false;
+                }
+            }
+            Config.messageClass.MessageSend(new MessageEventArgs($"运行完成,共复制{count}个文件对象", MessageType.Message));
+
+          
+        }
 
         /// <summary>
         /// 获取所有文件夹及子文件夹
@@ -223,25 +266,22 @@ namespace FileinFolder
         /// <param name="FolderPath"></param>
         private void GetSubFolders(string FolderPath)
         {
-            
             try
             {
                 DirectoryInfo dicInfo = new DirectoryInfo(FolderPath);
                 DirectoryInfo[] dirs = dicInfo.GetDirectories();
-            
-            
-            if (dirs.Count() > 0)
-            {
-                foreach (var dir in dirs)
+                if (dirs.Count() > 0)
                 {
-                    GetSubFolders(dir.FullName);
-                    AllFolder.Add(dir.FullName);
-                    Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
-                    Thread.Sleep(1);
+                    foreach (var dir in dirs)
+                    {
+                        GetSubFolders(dir.FullName);
+                        AllFolder.Add(dir.FullName);
+                        Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
+                    }
                 }
             }
-            }
             catch { };
+           
         }
 
         static Dictionary<string, string> FileDir = new Dictionary<string, string>();
@@ -267,6 +307,7 @@ namespace FileinFolder
                 }
                 catch { };
             }
+            
         }
 
         private string[] TypeFile()
