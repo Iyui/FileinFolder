@@ -12,9 +12,9 @@ using System.Windows.Forms;
 using System.Threading;
 namespace FileinFolder
 {
-    public partial class Form1 : Form
+    public partial class FileInFolder : Form
     {
-        public Form1()
+        public FileInFolder()
         {
             InitializeComponent();
             Config.messageClass.OnMessageSend+= new MessageEventHandler(SubthreadMessageReceive);
@@ -65,7 +65,8 @@ namespace FileinFolder
                     tsslFileName.Text = messageshow;
                     btStart.Text = "运行";
                     MessageBox.Show(messageshow);
-                    System.Diagnostics.Process.Start("explorer.exe", OutputPath);
+                    if(tsmiIfOpenFolder.Checked)
+                        System.Diagnostics.Process.Start("explorer.exe", OutputPath);
                     break;
                 case MessageType.Error:
                     btStart.Text = "运行";
@@ -128,6 +129,7 @@ namespace FileinFolder
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "所有文件(*.*)|*.*";
             dialog.Multiselect = true;
+            dialog.Title = hint;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 foreach (string FileName in dialog.FileNames)
@@ -170,7 +172,7 @@ namespace FileinFolder
         static List<string> Extention = new List<string>();
         private void btFileType_Click(object sender, EventArgs e)
         {
-            var extentions = FileExtension("选择要提取的拓展名类型");
+            var extentions = FileExtension("打开指定拓展名类型的文件来获取拓展名");
             foreach (var extention in extentions)
             {
                 if (!lbFileType.Items.Contains(extention))
@@ -285,6 +287,11 @@ namespace FileinFolder
             }
             Extention.Remove(lbFileType.SelectedItem.ToString());
             lbFileType.Items.Remove(lbFileType.SelectedItem.ToString());
+        }
+
+        private void IyuiLink_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/Iyui/FileinFolder");
         }
     }
 }
