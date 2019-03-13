@@ -158,8 +158,10 @@ namespace FileinFolder
 
         private void SaveTextAs_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "(文本)*.txt|*.txt";
+            SaveFileDialog sfd = new SaveFileDialog()
+            {
+                Filter = "(文本)*.txt|*.txt"
+            };
             if (DialogResult.OK == sfd.ShowDialog())
             {
                 try

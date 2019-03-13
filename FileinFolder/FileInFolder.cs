@@ -91,7 +91,6 @@ namespace FileinFolder
                             isProgress = true;
                         }
                     }
- 
                     fMaxProgress = Math.Max(fMaxProgress, e.iMessage);
                     progressBar.Value = (int)fMaxProgress;
                     lProgress.Text = fMaxProgress.ToString("0.00") + "%";
@@ -125,8 +124,10 @@ namespace FileinFolder
         private string sFolderPath(string hint)
         {
             string Path = "";
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = hint;
+            FolderBrowserDialog dialog = new FolderBrowserDialog
+            {
+                Description = hint
+            };
             //设置此次默认目录为上一次选中目录
             //string FolderDefaultPath = ScXmlClass.GetSCCTConfigElement("记录设定",
             //    this.TopLevelControl.Name, "路径", "Value");
@@ -152,10 +153,12 @@ namespace FileinFolder
         private List<string> FilePath(string hint)
         {
             List<string> Path = new List<string>();
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "所有文件(*.*)|*.*";
-            dialog.Multiselect = true;
-            dialog.Title = hint;
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "所有文件(*.*)|*.*",
+                Multiselect = true,
+                Title = hint
+            };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 foreach (string FileName in dialog.FileNames)

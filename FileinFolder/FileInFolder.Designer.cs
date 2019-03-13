@@ -164,9 +164,8 @@
             this.ldiffTime.AutoSize = true;
             this.ldiffTime.Location = new System.Drawing.Point(259, 185);
             this.ldiffTime.Name = "ldiffTime";
-            this.ldiffTime.Size = new System.Drawing.Size(41, 12);
+            this.ldiffTime.Size = new System.Drawing.Size(0, 12);
             this.ldiffTime.TabIndex = 10;
-            this.ldiffTime.Text = "label1";
             // 
             // progressBar
             // 
@@ -180,9 +179,9 @@
             this.lProgress.AutoSize = true;
             this.lProgress.Location = new System.Drawing.Point(212, 185);
             this.lProgress.Name = "lProgress";
-            this.lProgress.Size = new System.Drawing.Size(41, 12);
+            this.lProgress.Size = new System.Drawing.Size(17, 12);
             this.lProgress.TabIndex = 9;
-            this.lProgress.Text = "label1";
+            this.lProgress.Text = "0%";
             // 
             // tbOutputPath
             // 
