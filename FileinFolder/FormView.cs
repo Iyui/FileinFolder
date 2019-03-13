@@ -41,6 +41,7 @@ namespace FileinFolder
                 case MessageType.Error:
                     listBoxShow.Items.Add(e.Message);
                     break;
+
             }
             listBoxShow.TopIndex = listBoxShow.Items.Count - 1;
         }

@@ -1,5 +1,6 @@
 ﻿/*
  * 移动文件夹及子文件夹下的指定类型文件至目标目录
+ * Iyui
  */
 
 using System;
@@ -77,9 +78,30 @@ namespace FileinFolder
                     btStart.Text = "运行";
                     MessageBox.Show(e.Message);
                     break;
+                case MessageType.Progress:
+                    
+                    if (fMaxProgress < e.iMessage)
+                    {
+                        diffTime = Environment.TickCount- diffTime;
+                        difTime = iSurplus(e.iMessage - fMaxProgress, diffTime);
+                        var diftime = $"剩余时间:{difTime.ToString("0.0")}秒";
+                        if (difTime != 0)
+                        {
+                            ldiffTime.Text = diftime;
+                            isProgress = true;
+                        }
+                    }
+ 
+                    fMaxProgress = Math.Max(fMaxProgress, e.iMessage);
+                    progressBar.Value = (int)fMaxProgress;
+                    lProgress.Text = fMaxProgress.ToString("0.00") + "%";
+                    break;
             }
         }
-
+        bool isProgress = false;
+        static float diffTime = 0;
+        float fMaxProgress = 0;
+        float difTime = float.MaxValue;
         private void SubthreadMessageReceive(MessageEventArgs e)
         {
             try
@@ -193,8 +215,8 @@ namespace FileinFolder
         {
             if (btStart.Text == "运行")
             {
-                btStart.Text = "运行中";
-                FileDir.Clear();
+                init();
+                
                 FormView fv = new FormView();
                 fv.Show();
                 Thread.Sleep(1000);
@@ -247,7 +269,10 @@ namespace FileinFolder
                             FileDir.Remove(file.Key);
                             errorcount++;
                         };
-                        
+                        if (isProgress)
+                            diffTime = Environment.TickCount;
+                        isProgress = false;
+                        Config.messageClass.MessageSend(new MessageEventArgs(fProgress(count+ errorcount), MessageType.Progress));
                         Config.messageClass.MessageSend(new MessageEventArgs("复制:" + file.Key, MessageType.FilePath));
                     }
                 }
@@ -290,6 +315,9 @@ namespace FileinFolder
 
         static Dictionary<string, string> FileDir = new Dictionary<string, string>();
         static int isearch = 0;
+        static int idirsCount = 0;
+        static float idirCount = 0;
+        static float ifolderIndex = 0;
         /// <summary>
         /// 获取所有指定类型的文件
         /// </summary>
@@ -298,14 +326,18 @@ namespace FileinFolder
             //var pattern = sTypeFile();
             foreach (var folder in AllFolder)
             {
+                ifolderIndex++;
                 try
                 {
                     DirectoryInfo dicInfo = new DirectoryInfo(folder);
                     FileInfo[] dirs = TypeFile()
      .SelectMany(i => dicInfo.GetFiles(i, SearchOption.TopDirectoryOnly))
      .Distinct().ToArray();
+                    idirsCount = dirs.Count();
+                    idirCount = 0;
                     foreach (var dir in dirs)
                     {
+                        idirCount++;
                         FileDir.Add(dir.FullName, dir.Name);
                         Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
                         isearch++;
@@ -314,8 +346,6 @@ namespace FileinFolder
                 catch { };
             }
             isSearchFinished = true;
-
-
         }
 
         private string[] TypeFile()
@@ -348,7 +378,11 @@ namespace FileinFolder
         {
             string extension = Path.GetExtension(name);//扩展名 “.aspx”
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(name);// 没有扩展名的文件名
-            return reName(fileNameWithoutExtension, fileNameWithoutExtension, extension,name);
+            if (!NameHash.Add(name))
+            {
+                return reName(fileNameWithoutExtension, fileNameWithoutExtension, extension, name);
+            }
+            return name;         
         }
 
         /// <summary>
@@ -360,15 +394,12 @@ namespace FileinFolder
         /// <param name="name">有拓展名的文件名</param>
         /// <param name="serialNum">序号</param>
         /// <returns></returns>
-        private string reName(string fileNameWithoutExtension, string original,string extension,string name, int serialNum = 1)
+        private string reName(string fileNameWithoutExtension, string original, string extension, string name, int serialNum = 1)
         {
+            name = original + $"({serialNum.ToString()})" + extension;
+            serialNum++;
             if (!NameHash.Add(name))
-            {
-                name = original + $"({serialNum.ToString()})" + extension;
-                serialNum++;
-                if (!NameHash.Add(name))
-                    return reName(fileNameWithoutExtension, original, extension, name, serialNum);
-            }
+                return reName(fileNameWithoutExtension, original, extension, name, serialNum);
             return name;
         }
 
@@ -376,6 +407,52 @@ namespace FileinFolder
         {
             FormView fv = new FormView();
             fv.Show();
+        }
+
+        /// <summary>
+        /// 进度条
+        /// </summary>
+        /// <param name="icopy"></param>
+        /// <returns></returns>
+        private float fProgress(float icopy)
+        {
+            float progress = 0;
+            if (isearch != 0)
+            {
+                if (idirsCount == 0)
+                {
+                    idirsCount = 1;
+                    idirCount = 1;
+                }
+                //(当前已复制文件数/已搜索到的指定类型文件数)*(当前文件夹中已搜索到的指定类型文件数/当前文件夹中文件总数)*(已搜索的文件夹数/文件夹总数) * 100 + %
+                progress = (icopy / isearch) * (idirCount / idirsCount) * (ifolderIndex / AllFolder.Count()) * (float)100.0;   
+            }
+            return progress;
+        }
+
+        /// <summary>
+        /// 间隔时间
+        /// </summary>
+        /// <param name="diffProgress"></param>
+        /// <param name="diffTime"></param>
+        /// <returns></returns>
+        private float iSurplus(float diffProgress,float diffTime)
+        {
+            float iSurplusTime = 100 - fMaxProgress;
+            float difftime = diffProgress / diffTime;
+            return (iSurplusTime / difftime)/1000000000;
+        }
+
+        private void init()
+        {
+            isProgress = false;
+            diffTime = 0;
+            fMaxProgress = 0;
+            difTime = float.MaxValue;
+            progressBar.Value = 0;
+            lProgress.Text = fMaxProgress.ToString("0.00") + "%";
+            btStart.Text = "运行中";
+            FileDir.Clear();
         }
     }
 }

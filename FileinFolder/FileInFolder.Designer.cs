@@ -37,6 +37,9 @@
             this.同名覆盖ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiIfOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiView = new System.Windows.Forms.ToolStripMenuItem();
+            this.ldiffTime = new System.Windows.Forms.Label();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.lProgress = new System.Windows.Forms.Label();
             this.tbOutputPath = new System.Windows.Forms.TextBox();
             this.tbFolderPath = new System.Windows.Forms.TextBox();
             this.btStart = new System.Windows.Forms.Button();
@@ -90,6 +93,9 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.ldiffTime);
+            this.splitContainer1.Panel2.Controls.Add(this.progressBar);
+            this.splitContainer1.Panel2.Controls.Add(this.lProgress);
             this.splitContainer1.Panel2.Controls.Add(this.tbOutputPath);
             this.splitContainer1.Panel2.Controls.Add(this.tbFolderPath);
             this.splitContainer1.Panel2.Controls.Add(this.btStart);
@@ -98,8 +104,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.btFileType);
             this.splitContainer1.Panel2.Controls.Add(this.lbFileType);
             this.splitContainer1.Panel2.Controls.Add(this.btSelectFolder);
-            this.splitContainer1.Size = new System.Drawing.Size(361, 226);
-            this.splitContainer1.SplitterDistance = 25;
+            this.splitContainer1.Size = new System.Drawing.Size(388, 258);
+            this.splitContainer1.SplitterDistance = 28;
             this.splitContainer1.TabIndex = 2;
             // 
             // menuStrip1
@@ -113,7 +119,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(361, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(388, 28);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -126,7 +132,7 @@
             this.tsmiView});
             this.菜单ToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.菜单ToolStripMenuItem.Name = "菜单ToolStripMenuItem";
-            this.菜单ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.菜单ToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.菜单ToolStripMenuItem.Text = "选项";
             // 
             // 同名覆盖ToolStripMenuItem
@@ -152,6 +158,31 @@
             this.tsmiView.Size = new System.Drawing.Size(196, 22);
             this.tsmiView.Text = "查看详细";
             this.tsmiView.Click += new System.EventHandler(this.tsmiView_Click);
+            // 
+            // ldiffTime
+            // 
+            this.ldiffTime.AutoSize = true;
+            this.ldiffTime.Location = new System.Drawing.Point(259, 185);
+            this.ldiffTime.Name = "ldiffTime";
+            this.ldiffTime.Size = new System.Drawing.Size(41, 12);
+            this.ldiffTime.TabIndex = 10;
+            this.ldiffTime.Text = "label1";
+            // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(14, 174);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(179, 23);
+            this.progressBar.TabIndex = 3;
+            // 
+            // lProgress
+            // 
+            this.lProgress.AutoSize = true;
+            this.lProgress.Location = new System.Drawing.Point(212, 185);
+            this.lProgress.Name = "lProgress";
+            this.lProgress.Size = new System.Drawing.Size(41, 12);
+            this.lProgress.TabIndex = 9;
+            this.lProgress.Text = "label1";
             // 
             // tbOutputPath
             // 
@@ -215,10 +246,10 @@
             this.tsslFileName,
             this.toolStripStatusLabel1,
             this.IyuiLink});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 200);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 232);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.statusStrip1.Size = new System.Drawing.Size(361, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(388, 26);
             this.statusStrip1.TabIndex = 3;
             // 
             // tsslFileName
@@ -229,7 +260,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(302, 21);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(329, 21);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.Text = "    ";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -247,7 +278,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 226);
+            this.ClientSize = new System.Drawing.Size(388, 258);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -289,6 +320,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel IyuiLink;
         private System.Windows.Forms.ToolStripMenuItem tsmiView;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Label lProgress;
+        private System.Windows.Forms.Label ldiffTime;
     }
 }
 
