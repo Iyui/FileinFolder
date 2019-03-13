@@ -101,33 +101,33 @@
             this.tsmiSortString,
             this.tsmiOpenFileLocation});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 158);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(166, 136);
             // 
             // CopySelectedText
             // 
             this.CopySelectedText.Name = "CopySelectedText";
-            this.CopySelectedText.Size = new System.Drawing.Size(180, 22);
+            this.CopySelectedText.Size = new System.Drawing.Size(165, 22);
             this.CopySelectedText.Text = "复制选中行";
             this.CopySelectedText.Click += new System.EventHandler(this.CopySelectedText_Click);
             // 
             // CopyAllText
             // 
             this.CopyAllText.Name = "CopyAllText";
-            this.CopyAllText.Size = new System.Drawing.Size(180, 22);
+            this.CopyAllText.Size = new System.Drawing.Size(165, 22);
             this.CopyAllText.Text = "复制全部";
             this.CopyAllText.Click += new System.EventHandler(this.CopyAllText_Click);
             // 
             // ClearAllText
             // 
             this.ClearAllText.Name = "ClearAllText";
-            this.ClearAllText.Size = new System.Drawing.Size(180, 22);
+            this.ClearAllText.Size = new System.Drawing.Size(165, 22);
             this.ClearAllText.Text = "清空全部";
             this.ClearAllText.Click += new System.EventHandler(this.ClearAllText_Click);
             // 
             // SaveTextAs
             // 
             this.SaveTextAs.Name = "SaveTextAs";
-            this.SaveTextAs.Size = new System.Drawing.Size(180, 22);
+            this.SaveTextAs.Size = new System.Drawing.Size(165, 22);
             this.SaveTextAs.Text = "另存为文档";
             this.SaveTextAs.Click += new System.EventHandler(this.SaveTextAs_Click);
             // 
@@ -135,14 +135,14 @@
             // 
             this.tsmiSortString.Enabled = false;
             this.tsmiSortString.Name = "tsmiSortString";
-            this.tsmiSortString.Size = new System.Drawing.Size(180, 22);
+            this.tsmiSortString.Size = new System.Drawing.Size(165, 22);
             this.tsmiSortString.Text = "搜索";
             this.tsmiSortString.Click += new System.EventHandler(this.tsmiSortString_Click);
             // 
             // tsmiOpenFileLocation
             // 
             this.tsmiOpenFileLocation.Name = "tsmiOpenFileLocation";
-            this.tsmiOpenFileLocation.Size = new System.Drawing.Size(180, 22);
+            this.tsmiOpenFileLocation.Size = new System.Drawing.Size(165, 22);
             this.tsmiOpenFileLocation.Text = "打开文件/文件夹";
             this.tsmiOpenFileLocation.Click += new System.EventHandler(this.tsmiOpenFileLocation_Click);
             // 

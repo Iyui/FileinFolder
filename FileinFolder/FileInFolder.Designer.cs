@@ -131,9 +131,7 @@
             // 
             // 同名覆盖ToolStripMenuItem
             // 
-            this.同名覆盖ToolStripMenuItem.Checked = true;
             this.同名覆盖ToolStripMenuItem.CheckOnClick = true;
-            this.同名覆盖ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.同名覆盖ToolStripMenuItem.Enabled = false;
             this.同名覆盖ToolStripMenuItem.Name = "同名覆盖ToolStripMenuItem";
             this.同名覆盖ToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
@@ -150,13 +148,10 @@
             // 
             // tsmiView
             // 
-            this.tsmiView.Checked = true;
-            this.tsmiView.CheckOnClick = true;
-            this.tsmiView.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tsmiView.Enabled = false;
             this.tsmiView.Name = "tsmiView";
             this.tsmiView.Size = new System.Drawing.Size(196, 22);
-            this.tsmiView.Text = "查看细节";
+            this.tsmiView.Text = "查看详细";
+            this.tsmiView.Click += new System.EventHandler(this.tsmiView_Click);
             // 
             // tbOutputPath
             // 

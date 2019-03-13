@@ -1,6 +1,5 @@
 ﻿/*
  * 移动文件夹及子文件夹下的指定类型文件至目标目录
- * 同名文件覆盖
  */
 
 using System;
@@ -79,9 +78,8 @@ namespace FileinFolder
                     MessageBox.Show(e.Message);
                     break;
             }
-
-
         }
+
         private void SubthreadMessageReceive(MessageEventArgs e)
         {
             try
@@ -104,7 +102,6 @@ namespace FileinFolder
         /// <returns></returns>
         private string sFolderPath(string hint)
         {
-
             string Path = "";
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = hint;
@@ -196,14 +193,10 @@ namespace FileinFolder
         {
             if (btStart.Text == "运行")
             {
-
                 btStart.Text = "运行中";
                 FileDir.Clear();
-                if (tsmiView.Checked)
-                {
-                    FormView fv = new FormView();
-                    fv.Show();
-                }
+                FormView fv = new FormView();
+                fv.Show();
                 Thread.Sleep(1000);
                 starttime = Environment.TickCount;
                 ThreadGetFileFolder();
@@ -212,6 +205,7 @@ namespace FileinFolder
 
         private void ThreadGetFileFolder()
         {
+            AllFolder.Add(FloderPath);
             GetSubFolders(FloderPath);
             var runThread = new Thread(GetAppointTypeFile);
             runThread.Start();
@@ -226,6 +220,7 @@ namespace FileinFolder
         private void ThreadCopy()
         {
             int count = 0;
+            int errorcount = 0;
             isSearchFinished = false;
             loop = true;
             while (loop)
@@ -243,11 +238,16 @@ namespace FileinFolder
                         }
                         try
                         {
-                            File.Copy(file.Key, OutputPath + "\\" + file.Value, true);
+                            File.Copy(file.Key, OutputPath + "\\" + reName(file.Value), true);
                             FileDir.Remove(file.Key);
+                            count++;
                         }
-                        catch { FileDir.Remove(file.Key); };
-                        count++;
+                        catch
+                        {
+                            FileDir.Remove(file.Key);
+                            errorcount++;
+                        };
+                        
                         Config.messageClass.MessageSend(new MessageEventArgs("复制:" + file.Key, MessageType.FilePath));
                     }
                 }
@@ -257,10 +257,11 @@ namespace FileinFolder
                     if (isSearchFinished && FileDir.Count < 1)
                         loop = false;
                 }
-            }
-            Config.messageClass.MessageSend(new MessageEventArgs($"运行完成,共复制{count}个文件对象", MessageType.Message));
-
-
+            }           
+            Config.messageClass.MessageSend(new MessageEventArgs($"运行完成,共搜索到{isearch}个文件对象,复制成功{count}个文件对象,复制失败{errorcount}个文件对象", MessageType.Message));
+            AllFolder.Clear();
+            NameHash.Clear();
+            errorcount = count = 0;
         }
 
         /// <summary>
@@ -288,6 +289,7 @@ namespace FileinFolder
         }
 
         static Dictionary<string, string> FileDir = new Dictionary<string, string>();
+        static int isearch = 0;
         /// <summary>
         /// 获取所有指定类型的文件
         /// </summary>
@@ -306,6 +308,7 @@ namespace FileinFolder
                     {
                         FileDir.Add(dir.FullName, dir.Name);
                         Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
+                        isearch++;
                     }
                 }
                 catch { };
@@ -338,6 +341,41 @@ namespace FileinFolder
         private void IyuiLink_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/Iyui/FileinFolder");
+        }
+
+        HashSet<string> NameHash = new HashSet<string>();
+        private string reName(string name)
+        {
+            string extension = Path.GetExtension(name);//扩展名 “.aspx”
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(name);// 没有扩展名的文件名
+            return reName(fileNameWithoutExtension, fileNameWithoutExtension, extension,name);
+        }
+
+        /// <summary>
+        /// 重命名
+        /// </summary>
+        /// <param name="fileNameWithoutExtension">无拓展名的文件名</param>
+        /// <param name="original">原始无拓展名的文件名</param>
+        /// <param name="extension">拓展名</param>
+        /// <param name="name">有拓展名的文件名</param>
+        /// <param name="serialNum">序号</param>
+        /// <returns></returns>
+        private string reName(string fileNameWithoutExtension, string original,string extension,string name, int serialNum = 1)
+        {
+            if (!NameHash.Add(name))
+            {
+                name = original + $"({serialNum.ToString()})" + extension;
+                serialNum++;
+                if (!NameHash.Add(name))
+                    return reName(fileNameWithoutExtension, original, extension, name, serialNum);
+            }
+            return name;
+        }
+
+        private void tsmiView_Click(object sender, EventArgs e)
+        {
+            FormView fv = new FormView();
+            fv.Show();
         }
     }
 }
