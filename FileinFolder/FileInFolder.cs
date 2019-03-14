@@ -78,29 +78,22 @@ namespace FileinFolder
                     btStart.Text = "运行";
                     MessageBox.Show(e.Message);
                     break;
-                case MessageType.Progress:
-                    
-                    if (fMaxProgress < e.iMessage)
-                    {
-                        diffTime = Environment.TickCount- diffTime;
-                        difTime = iSurplus(e.iMessage - fMaxProgress, diffTime);
-                        var diftime = $"剩余时间:{difTime.ToString("0.0")}秒";
-                        if (difTime != 0)
-                        {
-                            ldiffTime.Text = diftime;
-                            isProgress = true;
-                        }
-                    }
+                case MessageType.Progress:   
                     fMaxProgress = Math.Max(fMaxProgress, e.iMessage);
+                    var timeSpan = TimeSpan.FromSeconds(fSurplusTime((Environment.TickCount - starttime) / 1000));
+                    var days = timeSpan.Days;
+                    var hours = (timeSpan.Hours + days * 24);
+                    var minutes = (timeSpan.Minutes + hours*60).ToString(); ;
+                    var mileseconds = timeSpan.Milliseconds;
+                    var seconds = (timeSpan.Seconds + (float)mileseconds / 1000).ToString("0.0");
+                    var diftime = $"剩余时间:{minutes}分{seconds}秒";
+                    ldiffTime.Text = diftime;
                     progressBar.Value = (int)fMaxProgress;
                     lProgress.Text = fMaxProgress.ToString("0.00") + "%";
                     break;
             }
         }
-        bool isProgress = false;
-        static float diffTime = 0;
         float fMaxProgress = 0;
-        float difTime = float.MaxValue;
         private void SubthreadMessageReceive(MessageEventArgs e)
         {
             try
@@ -128,11 +121,6 @@ namespace FileinFolder
             {
                 Description = hint
             };
-            //设置此次默认目录为上一次选中目录
-            //string FolderDefaultPath = ScXmlClass.GetSCCTConfigElement("记录设定",
-            //    this.TopLevelControl.Name, "路径", "Value");
-            //if (FolderDefaultPath != "")
-            //    dialog.SelectedPath = FolderDefaultPath;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 if (string.IsNullOrEmpty(dialog.SelectedPath))
@@ -212,7 +200,6 @@ namespace FileinFolder
             }
         }
 
-        //protected Thread runThread = null; //执行线程
         float starttime = 0; //计时
         private void btStart_Click(object sender, EventArgs e)
         {
@@ -272,10 +259,8 @@ namespace FileinFolder
                             FileDir.Remove(file.Key);
                             errorcount++;
                         };
-                        if (isProgress)
-                            diffTime = Environment.TickCount;
-                        isProgress = false;
-                        Config.messageClass.MessageSend(new MessageEventArgs(fProgress(count+ errorcount), MessageType.Progress));
+                        icount = count + errorcount;
+                        Config.messageClass.MessageSend(new MessageEventArgs(fProgress(icount), MessageType.Progress));
                         Config.messageClass.MessageSend(new MessageEventArgs("复制:" + file.Key, MessageType.FilePath));
                     }
                 }
@@ -291,7 +276,7 @@ namespace FileinFolder
             NameHash.Clear();
             errorcount = count = 0;
         }
-
+        int icount = 0;
         /// <summary>
         /// 获取所有文件夹及子文件夹
         /// </summary>
@@ -313,6 +298,8 @@ namespace FileinFolder
                 }
             }
             catch { };
+            starttime = Environment.TickCount;
+            fMaxProgress = 1;
 
         }
 
@@ -343,6 +330,7 @@ namespace FileinFolder
                         idirCount++;
                         FileDir.Add(dir.FullName, dir.Name);
                         Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
+                        Config.messageClass.MessageSend(new MessageEventArgs(fProgress(icount), MessageType.Progress));
                         isearch++;
                     }
                 }
@@ -434,24 +422,21 @@ namespace FileinFolder
         }
 
         /// <summary>
-        /// 间隔时间
+        /// 剩余时间
         /// </summary>
-        /// <param name="diffProgress"></param>
-        /// <param name="diffTime"></param>
+        /// <param name="fProgress"></param>
+        /// <param name="fTime"></param>
         /// <returns></returns>
-        private float iSurplus(float diffProgress,float diffTime)
+        private float fSurplusTime(float fTime)
         {
-            float iSurplusTime = 100 - fMaxProgress;
-            float difftime = diffProgress / diffTime;
-            return (iSurplusTime / difftime)/1000000000;
+            float iSurplus = 100 - fMaxProgress;
+            float fSubtime = iSurplus /(fMaxProgress/ fTime);//剩余进度/(当前进度/用时时间)
+            return fSubtime;
         }
 
         private void init()
         {
-            isProgress = false;
-            diffTime = 0;
             fMaxProgress = 0;
-            difTime = float.MaxValue;
             progressBar.Value = 0;
             lProgress.Text = fMaxProgress.ToString("0.00") + "%";
             btStart.Text = "运行中";
