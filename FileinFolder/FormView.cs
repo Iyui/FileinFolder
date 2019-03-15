@@ -16,7 +16,7 @@ namespace FileinFolder
         {
             InitializeComponent();
             Config.messageClass.OnMessageSend += new MessageEventHandler(SubthreadMessageReceive);
-
+            splitContainer1.SplitterDistance = splitContainer1.Size.Height + 25;
         }
 
         private void FormView_Load(object sender, EventArgs e)
@@ -66,6 +66,7 @@ namespace FileinFolder
         static int index = -1;
         private void SearchTarget()
         {
+            listBoxShow.SelectedIndex = 0;
             index = listBoxShow.FindString(tbTargetString.Text, index + 1);
             if (index != -1)
             {
@@ -74,12 +75,12 @@ namespace FileinFolder
             }
         }
 
-        private void Search()
-        {
-            Thread.Sleep(500);
-            MethodInvoker ln = new MethodInvoker(SearchTarget);
-            this.BeginInvoke(ln);
-        }
+        //private void Search()
+        //{
+        //    Thread.Sleep(500);
+        //    MethodInvoker ln = new MethodInvoker(SearchTarget);
+        //    this.BeginInvoke(ln);
+        //}
 
         private void tsmiSortString_Click(object sender, EventArgs e)
         {
@@ -93,8 +94,9 @@ namespace FileinFolder
         {
             if(firstClick)
             {
-                runThread = new Thread(Search);
-                runThread.Start();
+                //runThread = new Thread(Search);
+                //runThread.Start();
+                SearchTarget();
             }
             firstClick = false;
             if (TargetIndex.Count > 1)
@@ -107,8 +109,9 @@ namespace FileinFolder
         {
             if (firstClick)
             {
-                runThread = new Thread(Search);
-                runThread.Start();
+                //runThread = new Thread(Search);
+                SearchTarget();
+                //runThread.Start();
             }
             firstClick = false;
             if (TargetIndex.Count > 1 && SelectIndex > 0)
@@ -129,16 +132,21 @@ namespace FileinFolder
 
         private void tsmiOpenFileLocation_Click(object sender, EventArgs e)
         {
-            var filelocation = listBoxShow.SelectedItem.ToString().Substring(3);
-            ClickOpenLocation(filelocation);
+            if (listBoxShow.SelectedItems.Count < 1)
+            {
+                return;
+            }
+            for (int i = 0; i < listBoxShow.SelectedItems.Count; i++)
+            {
+                var Filelocation = listBoxShow.SelectedItems[i].ToString().Substring(3);
+                ClickOpenLocation(Filelocation);
+            }
+            
         }
 
         public void ClickOpenLocation(string location)
         {
-            System.Diagnostics.Process open = new System.Diagnostics.Process();
-            open.StartInfo.UseShellExecute = true;
-            open.StartInfo.FileName = @location;
-            open.Start();
+            System.Diagnostics.Process.Start("Explorer", "/select," + @location);
         }
 
         private void CopySelectedText_Click(object sender, EventArgs e)

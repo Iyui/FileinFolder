@@ -133,6 +133,7 @@
             // 
             // tsmiSortString
             // 
+            this.tsmiSortString.Enabled = false;
             this.tsmiSortString.Name = "tsmiSortString";
             this.tsmiSortString.Size = new System.Drawing.Size(165, 22);
             this.tsmiSortString.Text = "搜索";
