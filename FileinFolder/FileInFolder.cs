@@ -80,13 +80,7 @@ namespace FileinFolder
                     break;
                 case MessageType.Progress:   
                     fMaxProgress = Math.Max(fMaxProgress, e.iMessage);
-                    var timeSpan = TimeSpan.FromSeconds(fSurplusTime((Environment.TickCount - starttime) / 1000));
-                    var days = timeSpan.Days;
-                    var hours = (timeSpan.Hours + days * 24);
-                    var minutes = (timeSpan.Minutes + hours*60).ToString(); ;
-                    var mileseconds = timeSpan.Milliseconds;
-                    var seconds = (timeSpan.Seconds + (float)mileseconds / 1000).ToString("0.0");
-                    var diftime = $"剩余时间:{minutes}分{seconds}秒";
+                    var diftime = SurplusTime();
                     ldiffTime.Text = diftime;
                     progressBar.Value = (int)fMaxProgress;
                     lProgress.Text = fMaxProgress.ToString("0.00") + "%";
@@ -432,6 +426,18 @@ namespace FileinFolder
             float iSurplus = 100 - fMaxProgress;
             float fSubtime = iSurplus /(fMaxProgress/ fTime);//剩余进度/(当前进度/用时时间)
             return fSubtime;
+        }
+
+        private string SurplusTime()
+        {
+            var timeSpan = TimeSpan.FromSeconds(fSurplusTime((Environment.TickCount - starttime) / 1000));
+            var days = timeSpan.Days;
+            var hours = (timeSpan.Hours + days * 24);
+            var minutes = (timeSpan.Minutes + hours * 60).ToString(); ;
+            var mileseconds = timeSpan.Milliseconds;
+            var seconds = (timeSpan.Seconds + (float)mileseconds / 1000).ToString("0.0");
+            var diftime = $"剩余时间:{minutes}分{seconds}秒";
+            return diftime;
         }
 
         private void init()

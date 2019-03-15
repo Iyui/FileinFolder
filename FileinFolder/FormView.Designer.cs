@@ -70,7 +70,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer1.Panel2MinSize = 0;
             this.splitContainer1.Size = new System.Drawing.Size(800, 450);
-            this.splitContainer1.SplitterDistance = 449;
+            this.splitContainer1.SplitterDistance = 421;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -88,7 +88,7 @@
             this.listBoxShow.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.listBoxShow.Name = "listBoxShow";
             this.listBoxShow.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxShow.Size = new System.Drawing.Size(800, 449);
+            this.listBoxShow.Size = new System.Drawing.Size(800, 421);
             this.listBoxShow.TabIndex = 10;
             // 
             // contextMenuStrip1
@@ -133,7 +133,6 @@
             // 
             // tsmiSortString
             // 
-            this.tsmiSortString.Enabled = false;
             this.tsmiSortString.Name = "tsmiSortString";
             this.tsmiSortString.Size = new System.Drawing.Size(165, 22);
             this.tsmiSortString.Text = "搜索";
@@ -185,7 +184,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, -22);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 6);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 0;

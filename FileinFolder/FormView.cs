@@ -64,19 +64,26 @@ namespace FileinFolder
 
         List<int> TargetIndex = new List<int>();
         static int index = -1;
-        private void SortTarget()
+        private void SearchTarget()
         {
             index = listBoxShow.FindString(tbTargetString.Text, index + 1);
             if (index != -1)
             {
                 TargetIndex.Add(index);
-                SortTarget();
+                SearchTarget();
             }
+        }
+
+        private void Search()
+        {
+            Thread.Sleep(500);
+            MethodInvoker ln = new MethodInvoker(SearchTarget);
+            this.BeginInvoke(ln);
         }
 
         private void tsmiSortString_Click(object sender, EventArgs e)
         {
-            splitContainer1.SplitterDistance = splitContainer1.Size.Height - 1;
+            splitContainer1.SplitterDistance = splitContainer1.Size.Height - 25;
         }
 
         bool firstClick = true;
@@ -84,8 +91,11 @@ namespace FileinFolder
         int SelectIndex = -1;
         private void btSortNext_Click(object sender, EventArgs e)
         {
-            if (firstClick)
-                runThread = new Thread(SortTarget);
+            if(firstClick)
+            {
+                runThread = new Thread(Search);
+                runThread.Start();
+            }
             firstClick = false;
             if (TargetIndex.Count > 1)
             {
@@ -96,7 +106,10 @@ namespace FileinFolder
         private void btSortLast_Click(object sender, EventArgs e)
         {
             if (firstClick)
-                runThread = new Thread(SortTarget);
+            {
+                runThread = new Thread(Search);
+                runThread.Start();
+            }
             firstClick = false;
             if (TargetIndex.Count > 1 && SelectIndex > 0)
             {
@@ -111,7 +124,7 @@ namespace FileinFolder
 
         private void btCloseStatusStrip_Click(object sender, EventArgs e)
         {
-            splitContainer1.SplitterDistance = splitContainer1.Size.Height - 25;
+            splitContainer1.SplitterDistance = splitContainer1.Size.Height + 25;
         }
 
         private void tsmiOpenFileLocation_Click(object sender, EventArgs e)
