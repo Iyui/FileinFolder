@@ -197,10 +197,15 @@ namespace FileinFolder
         float starttime = 0; //计时
         private void btStart_Click(object sender, EventArgs e)
         {
+
             if (btStart.Text == "运行")
             {
                 init();
-                
+                if (MessageBox.Show("无文件类型时默认为所有文件,是否继续执行?", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
+                {
+                    btStart.Text = "运行";
+                    return;
+                }
                 FormView fv = new FormView();
                 fv.Show();
                 Thread.Sleep(1000);
@@ -312,12 +317,7 @@ namespace FileinFolder
                     FileInfo[] dirs;
 
                     if (lbFileType.Items.Count == 0)
-                    {
-                        if (MessageBox.Show("无文件类型时默认为所有文件,是否继续执行?", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
-                        {
-                            btStart.Text = "运行";
-                            return;
-                        }
+                    {                      
                         dirs = new string[] { "*.*" }
                         .SelectMany(i => dicInfo
                         .GetFiles(i, SearchOption.TopDirectoryOnly))

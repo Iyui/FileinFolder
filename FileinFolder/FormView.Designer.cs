@@ -38,7 +38,6 @@
             this.SaveTextAs = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSortString = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiOpenFileLocation = new System.Windows.Forms.ToolStripMenuItem();
-            this.btSortLast = new System.Windows.Forms.Button();
             this.btSortNext = new System.Windows.Forms.Button();
             this.btCloseStatusStrip = new System.Windows.Forms.Button();
             this.tbTargetString = new System.Windows.Forms.TextBox();
@@ -63,7 +62,6 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.btSortLast);
             this.splitContainer1.Panel2.Controls.Add(this.btSortNext);
             this.splitContainer1.Panel2.Controls.Add(this.btCloseStatusStrip);
             this.splitContainer1.Panel2.Controls.Add(this.tbTargetString);
@@ -101,68 +99,57 @@
             this.tsmiSortString,
             this.tsmiOpenFileLocation});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(166, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 136);
             // 
             // CopySelectedText
             // 
             this.CopySelectedText.Name = "CopySelectedText";
-            this.CopySelectedText.Size = new System.Drawing.Size(165, 22);
+            this.CopySelectedText.Size = new System.Drawing.Size(180, 22);
             this.CopySelectedText.Text = "复制选中行";
             this.CopySelectedText.Click += new System.EventHandler(this.CopySelectedText_Click);
             // 
             // CopyAllText
             // 
             this.CopyAllText.Name = "CopyAllText";
-            this.CopyAllText.Size = new System.Drawing.Size(165, 22);
+            this.CopyAllText.Size = new System.Drawing.Size(180, 22);
             this.CopyAllText.Text = "复制全部";
             this.CopyAllText.Click += new System.EventHandler(this.CopyAllText_Click);
             // 
             // ClearAllText
             // 
             this.ClearAllText.Name = "ClearAllText";
-            this.ClearAllText.Size = new System.Drawing.Size(165, 22);
+            this.ClearAllText.Size = new System.Drawing.Size(180, 22);
             this.ClearAllText.Text = "清空全部";
             this.ClearAllText.Click += new System.EventHandler(this.ClearAllText_Click);
             // 
             // SaveTextAs
             // 
             this.SaveTextAs.Name = "SaveTextAs";
-            this.SaveTextAs.Size = new System.Drawing.Size(165, 22);
+            this.SaveTextAs.Size = new System.Drawing.Size(180, 22);
             this.SaveTextAs.Text = "另存为文档";
             this.SaveTextAs.Click += new System.EventHandler(this.SaveTextAs_Click);
             // 
             // tsmiSortString
             // 
-            this.tsmiSortString.Enabled = false;
             this.tsmiSortString.Name = "tsmiSortString";
-            this.tsmiSortString.Size = new System.Drawing.Size(165, 22);
+            this.tsmiSortString.Size = new System.Drawing.Size(180, 22);
             this.tsmiSortString.Text = "搜索";
             this.tsmiSortString.Click += new System.EventHandler(this.tsmiSortString_Click);
             // 
             // tsmiOpenFileLocation
             // 
             this.tsmiOpenFileLocation.Name = "tsmiOpenFileLocation";
-            this.tsmiOpenFileLocation.Size = new System.Drawing.Size(165, 22);
-            this.tsmiOpenFileLocation.Text = "打开文件/文件夹";
+            this.tsmiOpenFileLocation.Size = new System.Drawing.Size(180, 22);
+            this.tsmiOpenFileLocation.Text = "打开所在位置";
             this.tsmiOpenFileLocation.Click += new System.EventHandler(this.tsmiOpenFileLocation_Click);
-            // 
-            // btSortLast
-            // 
-            this.btSortLast.Location = new System.Drawing.Point(25, 6);
-            this.btSortLast.Name = "btSortLast";
-            this.btSortLast.Size = new System.Drawing.Size(22, 22);
-            this.btSortLast.TabIndex = 4;
-            this.btSortLast.Text = "↑";
-            this.btSortLast.UseVisualStyleBackColor = true;
-            this.btSortLast.Click += new System.EventHandler(this.btSortLast_Click);
             // 
             // btSortNext
             // 
-            this.btSortNext.Location = new System.Drawing.Point(48, 6);
+            this.btSortNext.Location = new System.Drawing.Point(30, 6);
             this.btSortNext.Name = "btSortNext";
             this.btSortNext.Size = new System.Drawing.Size(22, 22);
             this.btSortNext.TabIndex = 3;
-            this.btSortNext.Text = "↓";
+            this.btSortNext.Text = "搜";
             this.btSortNext.UseVisualStyleBackColor = true;
             this.btSortNext.Click += new System.EventHandler(this.btSortNext_Click);
             // 
@@ -178,10 +165,12 @@
             // 
             // tbTargetString
             // 
-            this.tbTargetString.Location = new System.Drawing.Point(76, 6);
+            this.tbTargetString.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tbTargetString.Location = new System.Drawing.Point(58, 6);
             this.tbTargetString.Name = "tbTargetString";
-            this.tbTargetString.Size = new System.Drawing.Size(724, 21);
+            this.tbTargetString.Size = new System.Drawing.Size(742, 21);
             this.tbTargetString.TabIndex = 1;
+            this.tbTargetString.TextChanged += new System.EventHandler(this.tbTargetString_TextChanged);
             // 
             // statusStrip1
             // 
@@ -225,6 +214,5 @@
         private System.Windows.Forms.ToolStripMenuItem SaveTextAs;
         private System.Windows.Forms.ToolStripMenuItem tsmiSortString;
         private System.Windows.Forms.ToolStripMenuItem tsmiOpenFileLocation;
-        private System.Windows.Forms.Button btSortLast;
     }
 }

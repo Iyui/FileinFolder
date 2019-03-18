@@ -66,12 +66,13 @@ namespace FileinFolder
         static int index = -1;
         private void SearchTarget()
         {
-            listBoxShow.SelectedIndex = 0;
-            index = listBoxShow.FindString(tbTargetString.Text, index + 1);
-            if (index != -1)
+            for (int i = 0; i < listBoxShow.Items.Count; i++)
             {
-                TargetIndex.Add(index);
-                SearchTarget();
+                string s = listBoxShow.Items[i].ToString();
+                if (s.Contains(tbTargetString.Text.Trim()))
+                {
+                    TargetIndex.Add(i);
+                }
             }
         }
 
@@ -82,40 +83,16 @@ namespace FileinFolder
         }
 
         bool firstClick = true;
-        protected Thread runThread = null; //执行线程
-        int SelectIndex = -1;
         private void btSortNext_Click(object sender, EventArgs e)
         {
             if(firstClick)
             {
-                //runThread = new Thread(Search);
-                //runThread.Start();
                 SearchTarget();
             }
             firstClick = false;
-            if (TargetIndex.Count > 1)
+            for(int i = 0;i<TargetIndex.Count;i++)
             {
-                listBoxShow.SelectedIndex = TargetIndex[++SelectIndex];
-            }
-        }
-
-        private void btSortLast_Click(object sender, EventArgs e)
-        {
-            if (firstClick)
-            {
-                //runThread = new Thread(Search);
-                SearchTarget();
-                //runThread.Start();
-            }
-            firstClick = false;
-            if (TargetIndex.Count > 1 && SelectIndex > 0)
-            {
-                listBoxShow.SelectedIndex = TargetIndex[--SelectIndex];
-            }
-            else
-            {
-                SelectIndex = 0;
-                listBoxShow.SelectedIndex = TargetIndex[SelectIndex];
+                listBoxShow.SelectedIndex= TargetIndex[i];
             }
         }
 
@@ -126,11 +103,17 @@ namespace FileinFolder
 
         private void tsmiOpenFileLocation_Click(object sender, EventArgs e)
         {
-            if (listBoxShow.SelectedItems.Count < 1)
+            var count = listBoxShow.SelectedItems.Count;
+            if (count < 1)
             {
                 return;
             }
-            for (int i = 0; i < listBoxShow.SelectedItems.Count; i++)
+            else if(count > 10)
+            {
+                if (MessageBox.Show($"当前选中{count}个文件/文件夹,可能会导致打开过程中内存占用过大,是否继续?", "消息提醒", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
+                    return;
+            }
+            for (int i = 0; i < count; i++)
             {
                 var Filelocation = listBoxShow.SelectedItems[i].ToString().Substring(3);
                 ClickOpenLocation(Filelocation);
@@ -204,6 +187,11 @@ namespace FileinFolder
         private void ClearAllText_Click(object sender, EventArgs e)
         {
             listBoxShow.Items.Clear();
+        }
+
+        private void tbTargetString_TextChanged(object sender, EventArgs e)
+        {
+            firstClick = true;
         }
     }
 }
