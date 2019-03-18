@@ -237,11 +237,6 @@ namespace FileinFolder
                     try { newDir = new Dictionary<string, string>(FileDir); } catch { };
                     foreach (var file in newDir)
                     {
-                        if (lbFileType.Items.Count == 0)
-                        {
-                            Config.messageClass.MessageSend(new MessageEventArgs("文件类型不能为空", MessageType.Error));
-                            return;
-                        }
                         try
                         {
                             File.Copy(file.Key, OutputPath + "\\" + reName(file.Value), true);
@@ -314,9 +309,25 @@ namespace FileinFolder
                 try
                 {
                     DirectoryInfo dicInfo = new DirectoryInfo(folder);
-                    FileInfo[] dirs = TypeFile()
-     .SelectMany(i => dicInfo.GetFiles(i, SearchOption.TopDirectoryOnly))
-     .Distinct().ToArray();
+                    FileInfo[] dirs;
+
+                    if (lbFileType.Items.Count == 0)
+                    {
+                        if (MessageBox.Show("无文件类型时默认为所有文件,是否继续执行?", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
+                        {
+                            btStart.Text = "运行";
+                            return;
+                        }
+                        dirs = new string[] { "*.*" }
+                        .SelectMany(i => dicInfo
+                        .GetFiles(i, SearchOption.TopDirectoryOnly))
+                        .Distinct().ToArray();
+                    }
+                    else
+                        dirs = TypeFile()
+                        .SelectMany(i => dicInfo
+                        .GetFiles(i, SearchOption.TopDirectoryOnly))
+                        .Distinct().ToArray();
                     idirsCount = dirs.Count();
                     idirCount = 0;
                     foreach (var dir in dirs)

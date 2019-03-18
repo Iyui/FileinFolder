@@ -75,12 +75,6 @@ namespace FileinFolder
             }
         }
 
-        //private void Search()
-        //{
-        //    Thread.Sleep(500);
-        //    MethodInvoker ln = new MethodInvoker(SearchTarget);
-        //    this.BeginInvoke(ln);
-        //}
 
         private void tsmiSortString_Click(object sender, EventArgs e)
         {
@@ -209,7 +203,7 @@ namespace FileinFolder
 
         private void ClearAllText_Click(object sender, EventArgs e)
         {
-
+            listBoxShow.Items.Clear();
         }
     }
 }
