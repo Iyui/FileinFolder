@@ -265,7 +265,7 @@ namespace FileinFolder
                         loop = false;
                 }
             }           
-            Config.messageClass.MessageSend(new MessageEventArgs($"运行完成,共搜索到{isearch}个文件对象,复制成功{count}个文件对象,复制失败{errorcount}个文件对象", MessageType.Message));
+            Config.messageClass.MessageSend(new MessageEventArgs($"运行完成,共搜索到{isearch}个文件对象,总大小{TotalSize}MB,复制成功{count}个文件对象,复制失败{errorcount}个文件对象", MessageType.Message));
             AllFolder.Clear();
             NameHash.Clear();
             errorcount = count = 0;
@@ -294,7 +294,6 @@ namespace FileinFolder
             catch { };
             starttime = Environment.TickCount;
             fMaxProgress = 1;
-
         }
 
         static Dictionary<string, string> FileDir = new Dictionary<string, string>();
@@ -302,11 +301,13 @@ namespace FileinFolder
         static int idirsCount = 0;
         static float idirCount = 0;
         static float ifolderIndex = 0;
+        double TotalSize = 0;
         /// <summary>
         /// 获取所有指定类型的文件
         /// </summary>
         private void GetAppointTypeFile()
         {
+            
             //var pattern = sTypeFile();
             foreach (var folder in AllFolder)
             {
@@ -334,6 +335,7 @@ namespace FileinFolder
                     {
                         idirCount++;
                         FileDir.Add(dir.FullName, dir.Name);
+                        TotalSize += dir.Length / 1024 / 1024;
                         Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
                         Config.messageClass.MessageSend(new MessageEventArgs(fProgress(icount), MessageType.Progress));
                         isearch++;
@@ -453,6 +455,7 @@ namespace FileinFolder
 
         private void init()
         {
+            TotalSize = 0;
             fMaxProgress = 0;
             progressBar.Value = 0;
             lProgress.Text = fMaxProgress.ToString("0.00") + "%";

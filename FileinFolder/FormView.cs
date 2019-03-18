@@ -117,8 +117,7 @@ namespace FileinFolder
             {
                 var Filelocation = listBoxShow.SelectedItems[i].ToString().Substring(3);
                 ClickOpenLocation(Filelocation);
-            }
-            
+            }   
         }
 
         public void ClickOpenLocation(string location)
