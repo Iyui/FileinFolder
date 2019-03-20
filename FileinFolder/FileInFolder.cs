@@ -201,7 +201,7 @@ namespace FileinFolder
             if (btStart.Text == "运行")
             {
                 init();
-                if (MessageBox.Show("无文件类型时默认为所有文件,是否继续执行?", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
+                if (lbFileType.Items.Count == 0 && MessageBox.Show("无文件类型时默认为所有文件,是否继续执行?", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
                 {
                     btStart.Text = "运行";
                     return;
@@ -232,7 +232,6 @@ namespace FileinFolder
         {
             int count = 0;
             int errorcount = 0;
-            isSearchFinished = false;
             loop = true;
             while (loop)
             {
@@ -244,7 +243,10 @@ namespace FileinFolder
                     {
                         try
                         {
-                            File.Copy(file.Key, OutputPath + "\\" + reName(file.Value), true);
+                            if (tsmi_SameName.Checked)
+                                File.Copy(file.Key, OutputPath + "\\" + file.Value, true);
+                            else
+                                File.Copy(file.Key, OutputPath + "\\" + reName(file.Value), true);
                             FileDir.Remove(file.Key);
                             count++;
                         }
@@ -455,9 +457,11 @@ namespace FileinFolder
 
         private void init()
         {
+            isearch = 0;
             TotalSize = 0;
             fMaxProgress = 0;
             progressBar.Value = 0;
+            isSearchFinished = false;
             lProgress.Text = fMaxProgress.ToString("0.00") + "%";
             btStart.Text = "运行中";
             FileDir.Clear();

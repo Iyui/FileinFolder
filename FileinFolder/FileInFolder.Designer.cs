@@ -34,7 +34,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.菜单ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.同名覆盖ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_SameName = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiIfOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiView = new System.Windows.Forms.ToolStripMenuItem();
             this.ldiffTime = new System.Windows.Forms.Label();
@@ -127,7 +127,7 @@
             // 
             this.菜单ToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.菜单ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.同名覆盖ToolStripMenuItem,
+            this.tsmi_SameName,
             this.tsmiIfOpenFolder,
             this.tsmiView});
             this.菜单ToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
@@ -135,13 +135,12 @@
             this.菜单ToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.菜单ToolStripMenuItem.Text = "选项";
             // 
-            // 同名覆盖ToolStripMenuItem
+            // tsmi_SameName
             // 
-            this.同名覆盖ToolStripMenuItem.CheckOnClick = true;
-            this.同名覆盖ToolStripMenuItem.Enabled = false;
-            this.同名覆盖ToolStripMenuItem.Name = "同名覆盖ToolStripMenuItem";
-            this.同名覆盖ToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.同名覆盖ToolStripMenuItem.Text = "同名覆盖";
+            this.tsmi_SameName.CheckOnClick = true;
+            this.tsmi_SameName.Name = "tsmi_SameName";
+            this.tsmi_SameName.Size = new System.Drawing.Size(196, 22);
+            this.tsmi_SameName.Text = "同名覆盖";
             // 
             // tsmiIfOpenFolder
             // 
@@ -314,7 +313,7 @@
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.TextBox tbOutputPath;
         private System.Windows.Forms.TextBox tbFolderPath;
-        private System.Windows.Forms.ToolStripMenuItem 同名覆盖ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_SameName;
         private System.Windows.Forms.ToolStripMenuItem tsmiIfOpenFolder;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel IyuiLink;
