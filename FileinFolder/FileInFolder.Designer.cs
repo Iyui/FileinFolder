@@ -37,6 +37,7 @@
             this.tsmi_SameName = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiIfOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiView = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.ldiffTime = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.lProgress = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.btRemoveType = new System.Windows.Forms.Button();
             this.btFileType = new System.Windows.Forms.Button();
             this.lbFileType = new System.Windows.Forms.ListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -56,6 +58,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,7 +74,7 @@
             // 
             // btOutput
             // 
-            this.btOutput.Location = new System.Drawing.Point(253, 39);
+            this.btOutput.Location = new System.Drawing.Point(249, -1);
             this.btOutput.Name = "btOutput";
             this.btOutput.Size = new System.Drawing.Size(75, 23);
             this.btOutput.TabIndex = 1;
@@ -99,11 +102,12 @@
             this.splitContainer1.Panel2.Controls.Add(this.tbOutputPath);
             this.splitContainer1.Panel2.Controls.Add(this.tbFolderPath);
             this.splitContainer1.Panel2.Controls.Add(this.btStart);
-            this.splitContainer1.Panel2.Controls.Add(this.btOutput);
             this.splitContainer1.Panel2.Controls.Add(this.btRemoveType);
             this.splitContainer1.Panel2.Controls.Add(this.btFileType);
             this.splitContainer1.Panel2.Controls.Add(this.lbFileType);
             this.splitContainer1.Panel2.Controls.Add(this.btSelectFolder);
+            this.splitContainer1.Panel2.Controls.Add(this.panel1);
+            this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Size = new System.Drawing.Size(388, 258);
             this.splitContainer1.SplitterDistance = 28;
             this.splitContainer1.TabIndex = 2;
@@ -158,6 +162,17 @@
             this.tsmiView.Text = "查看详细";
             this.tsmiView.Click += new System.EventHandler(this.tsmiView_Click);
             // 
+            // panel2
+            // 
+            this.panel2.AllowDrop = true;
+            this.panel2.Controls.Add(this.btOutput);
+            this.panel2.Location = new System.Drawing.Point(4, 30);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(372, 21);
+            this.panel2.TabIndex = 12;
+            this.panel2.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel2_DragDrop);
+            this.panel2.DragEnter += new System.Windows.Forms.DragEventHandler(this.Panel_DragEnter);
+            // 
             // ldiffTime
             // 
             this.ldiffTime.AutoSize = true;
@@ -184,19 +199,25 @@
             // 
             // tbOutputPath
             // 
+            this.tbOutputPath.AllowDrop = true;
             this.tbOutputPath.Location = new System.Drawing.Point(14, 30);
             this.tbOutputPath.Name = "tbOutputPath";
             this.tbOutputPath.ReadOnly = true;
             this.tbOutputPath.Size = new System.Drawing.Size(222, 21);
             this.tbOutputPath.TabIndex = 8;
+            this.tbOutputPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel2_DragDrop);
+            this.tbOutputPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.Panel_DragEnter);
             // 
             // tbFolderPath
             // 
+            this.tbFolderPath.AllowDrop = true;
             this.tbFolderPath.Location = new System.Drawing.Point(14, 3);
             this.tbFolderPath.Name = "tbFolderPath";
             this.tbFolderPath.ReadOnly = true;
             this.tbFolderPath.Size = new System.Drawing.Size(222, 21);
             this.tbFolderPath.TabIndex = 7;
+            this.tbFolderPath.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel1_DragDrop);
+            this.tbFolderPath.DragEnter += new System.Windows.Forms.DragEventHandler(this.Panel_DragEnter);
             // 
             // btStart
             // 
@@ -230,12 +251,25 @@
             // 
             // lbFileType
             // 
+            this.lbFileType.AllowDrop = true;
             this.lbFileType.FormattingEnabled = true;
             this.lbFileType.ItemHeight = 12;
             this.lbFileType.Location = new System.Drawing.Point(14, 54);
             this.lbFileType.Name = "lbFileType";
             this.lbFileType.Size = new System.Drawing.Size(222, 88);
             this.lbFileType.TabIndex = 2;
+            this.lbFileType.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbFileType_DragDrop);
+            this.lbFileType.DragEnter += new System.Windows.Forms.DragEventHandler(this.Panel_DragEnter);
+            // 
+            // panel1
+            // 
+            this.panel1.AllowDrop = true;
+            this.panel1.Location = new System.Drawing.Point(4, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(372, 23);
+            this.panel1.TabIndex = 11;
+            this.panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel1_DragDrop);
+            this.panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.Panel_DragEnter);
             // 
             // statusStrip1
             // 
@@ -282,6 +316,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FileInFolder";
             this.Text = "FileInFolder";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FileInFolder_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -290,6 +325,7 @@
             this.splitContainer1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -321,6 +357,8 @@
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label lProgress;
         private System.Windows.Forms.Label ldiffTime;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

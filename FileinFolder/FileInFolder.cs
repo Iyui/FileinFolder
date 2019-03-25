@@ -22,7 +22,6 @@ namespace FileinFolder
             OutputPath = AppDomain.CurrentDomain.BaseDirectory;
             tbFolderPath.Text = FloderPath;
             tbOutputPath.Text = OutputPath;
-            this.FormClosing += FileInFolder_FormClosing;
         }
 
         private void FileInFolder_FormClosing(object sender, FormClosingEventArgs e)
@@ -200,7 +199,7 @@ namespace FileinFolder
 
             if (btStart.Text == "运行")
             {
-                init();
+                Start();
                 if (lbFileType.Items.Count == 0 && MessageBox.Show("无文件类型时默认为所有文件,是否继续执行?", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != DialogResult.OK)
                 {
                     btStart.Text = "运行";
@@ -455,7 +454,7 @@ namespace FileinFolder
             return diftime;
         }
 
-        private void init()
+        private void Start()
         {
             isearch = 0;
             TotalSize = 0;
@@ -465,6 +464,51 @@ namespace FileinFolder
             lProgress.Text = fMaxProgress.ToString("0.00") + "%";
             btStart.Text = "运行中";
             FileDir.Clear();
+        }
+
+        private void panel1_DragDrop(object sender, DragEventArgs e)
+        {
+            string path = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();       //获得路径
+            if(File.Exists(path))
+                path = Path.GetDirectoryName(path);
+            tbFolderPath.Text = path;
+        }
+
+        private void panel2_DragDrop(object sender, DragEventArgs e)
+        {
+            string path = ((Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();       //获得路径
+            if (File.Exists(path))
+                path = Path.GetDirectoryName(path);
+            tbOutputPath.Text = path;
+        }
+
+        
+
+        private void Panel_DragEnter(object sender, DragEventArgs e)                                         //获得“信息”
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.All;                                                              //重要代码：表明是所有类型的数据，比如文件路径
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void lbFileType_DragDrop(object sender, DragEventArgs e)
+        {
+            
+            var FilePath = ((Array)e.Data.GetData(DataFormats.FileDrop));       //获得路径
+            foreach (var filepath in FilePath)
+            {
+                string path = filepath.ToString();
+                if (File.Exists(path))
+                {
+                    string extention = Path.GetExtension(path);
+                    if (!lbFileType.Items.Contains(extention))
+                    {
+                        lbFileType.Items.Add(extention);
+                        Extention.Add(extention);
+                    }
+                }
+            }
         }
     }
 }
