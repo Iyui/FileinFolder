@@ -407,7 +407,7 @@ namespace FileinFolder
             FormView fv = new FormView();
             fv.Show();
         }
-
+        
         /// <summary>
         /// 进度条
         /// </summary>
@@ -426,6 +426,8 @@ namespace FileinFolder
                 //(当前已复制文件数/已搜索到的指定类型文件数)*(当前文件夹中已搜索到的指定类型文件数/当前文件夹中文件总数)*(已搜索的文件夹数/文件夹总数) * 100 + %
                 progress = (icopy / isearch) * (idirCount / idirsCount) * (ifolderIndex / AllFolder.Count()) * (float)100.0;   
             }
+            if (progress > 100)
+                progress = 100;
             return progress;
         }
 
@@ -472,6 +474,7 @@ namespace FileinFolder
             if(File.Exists(path))
                 path = Path.GetDirectoryName(path);
             tbFolderPath.Text = path;
+            FloderPath = path;
         }
 
         private void panel2_DragDrop(object sender, DragEventArgs e)
@@ -480,6 +483,7 @@ namespace FileinFolder
             if (File.Exists(path))
                 path = Path.GetDirectoryName(path);
             tbOutputPath.Text = path;
+            OutputPath = path;
         }
 
         
@@ -494,7 +498,6 @@ namespace FileinFolder
 
         private void lbFileType_DragDrop(object sender, DragEventArgs e)
         {
-            
             var FilePath = ((Array)e.Data.GetData(DataFormats.FileDrop));       //获得路径
             foreach (var filepath in FilePath)
             {
