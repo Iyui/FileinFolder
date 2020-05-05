@@ -36,6 +36,11 @@
             this.tsmiIfOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiView = new System.Windows.Forms.ToolStripMenuItem();
             this.USBCopyer = new System.Windows.Forms.ToolStripMenuItem();
+            this.选择文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.输出至ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsslFileName = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.ldiffTime = new System.Windows.Forms.Label();
             this.lProgress = new System.Windows.Forms.Label();
             this.tbOutputPath = new System.Windows.Forms.TextBox();
@@ -45,14 +50,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.IyuiLink = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.选择文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.输出至ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.tsslFileName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -89,7 +89,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Size = new System.Drawing.Size(245, 193);
-            this.splitContainer1.SplitterDistance = 24;
+            this.splitContainer1.SplitterDistance = 25;
             this.splitContainer1.TabIndex = 2;
             // 
             // menuStrip1
@@ -105,7 +105,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(245, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(245, 25);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -119,7 +119,7 @@
             this.USBCopyer});
             this.菜单ToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.菜单ToolStripMenuItem.Name = "菜单ToolStripMenuItem";
-            this.菜单ToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.菜单ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.菜单ToolStripMenuItem.Text = "选项";
             // 
             // tsmi_SameName
@@ -152,6 +152,48 @@
             this.USBCopyer.Size = new System.Drawing.Size(196, 22);
             this.USBCopyer.Text = "U盘复制模式";
             this.USBCopyer.Visible = false;
+            // 
+            // 选择文件夹ToolStripMenuItem
+            // 
+            this.选择文件夹ToolStripMenuItem.Name = "选择文件夹ToolStripMenuItem";
+            this.选择文件夹ToolStripMenuItem.Size = new System.Drawing.Size(80, 21);
+            this.选择文件夹ToolStripMenuItem.Text = "选择文件夹";
+            this.选择文件夹ToolStripMenuItem.Click += new System.EventHandler(this.btSelectFolder_Click);
+            // 
+            // 输出至ToolStripMenuItem
+            // 
+            this.输出至ToolStripMenuItem.Name = "输出至ToolStripMenuItem";
+            this.输出至ToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
+            this.输出至ToolStripMenuItem.Text = "输出至";
+            this.输出至ToolStripMenuItem.Click += new System.EventHandler(this.btOutput_Click);
+            // 
+            // tsslFileName
+            // 
+            this.tsslFileName.AutoSize = true;
+            this.tsslFileName.Location = new System.Drawing.Point(12, 115);
+            this.tsslFileName.Name = "tsslFileName";
+            this.tsslFileName.Size = new System.Drawing.Size(0, 12);
+            this.tsslFileName.TabIndex = 15;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(97, 83);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "删除类型";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.btRemoveType_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(97, 57);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "添加类型";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btFileType_Click);
             // 
             // ldiffTime
             // 
@@ -249,6 +291,12 @@
             this.statusStrip1.Size = new System.Drawing.Size(245, 26);
             this.statusStrip1.TabIndex = 3;
             // 
+            // progressBar
+            // 
+            this.progressBar.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(180, 20);
+            // 
             // IyuiLink
             // 
             this.IyuiLink.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
@@ -257,55 +305,6 @@
             this.IyuiLink.Text = "@Iyui";
             this.IyuiLink.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.IyuiLink.Click += new System.EventHandler(this.IyuiLink_Click);
-            // 
-            // 选择文件夹ToolStripMenuItem
-            // 
-            this.选择文件夹ToolStripMenuItem.Name = "选择文件夹ToolStripMenuItem";
-            this.选择文件夹ToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
-            this.选择文件夹ToolStripMenuItem.Text = "选择文件夹";
-            this.选择文件夹ToolStripMenuItem.Click += new System.EventHandler(this.btSelectFolder_Click);
-            // 
-            // 输出至ToolStripMenuItem
-            // 
-            this.输出至ToolStripMenuItem.Name = "输出至ToolStripMenuItem";
-            this.输出至ToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.输出至ToolStripMenuItem.Text = "输出至";
-            this.输出至ToolStripMenuItem.Click += new System.EventHandler(this.btOutput_Click);
-            // 
-            // progressBar
-            // 
-            this.progressBar.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(180, 20);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(97, 57);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "添加类型";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btFileType_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(97, 83);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "删除类型";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.btRemoveType_Click);
-            // 
-            // tsslFileName
-            // 
-            this.tsslFileName.AutoSize = true;
-            this.tsslFileName.Location = new System.Drawing.Point(12, 115);
-            this.tsslFileName.Name = "tsslFileName";
-            this.tsslFileName.Size = new System.Drawing.Size(41, 12);
-            this.tsslFileName.TabIndex = 15;
-            this.tsslFileName.Text = "label1";
             // 
             // FileInFolder
             // 
