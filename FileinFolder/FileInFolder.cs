@@ -175,7 +175,7 @@ namespace FileinFolder
         private void btOutput_Click(object sender, EventArgs e)
         {
             OutputPath = SelectFolder("选择输出的文件夹路径");
-            if (!string.IsNullOrWhiteSpace(FloderPath))
+            if (!string.IsNullOrWhiteSpace(OutputPath))
                 tbOutputPath.Text = OutputPath;
         }
 
@@ -273,7 +273,7 @@ namespace FileinFolder
         }
         int icount = 0;
         /// <summary>
-        /// 获取所有文件夹及子文件夹
+        /// 深度优先搜索获取所有文件夹及子文件夹 
         /// </summary>
         /// <param name="FolderPath"></param>
         private void GetSubFolders(string FolderPath)
@@ -286,7 +286,7 @@ namespace FileinFolder
                 {
                     foreach (var dir in dirs)
                     {
-                        GetSubFolders(dir.FullName);
+                        GetSubFolders(dir.FullName);//递归搜索
                         AllFolder.Add(dir.FullName);
                         Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
                     }
