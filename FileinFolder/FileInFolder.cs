@@ -266,7 +266,7 @@ namespace FileinFolder
                         loop = false;
                 }
             }           
-            Config.messageClass.MessageSend(new MessageEventArgs($"运行完成,共搜索到{isearch}个文件对象,总大小{TotalSize}MB,复制成功{count}个文件对象,复制失败{errorcount}个文件对象", MessageType.Message));
+            Config.messageClass.MessageSend(new MessageEventArgs($"运行完成,共搜索到{isearch}个文件对象,总大小{TotalSize.ToString("0.00")}MB,复制成功{count}个文件对象,复制失败{errorcount}个文件对象", MessageType.Message));
             AllFolder.Clear();
             NameHash.Clear();
             errorcount = count = 0;
@@ -336,7 +336,7 @@ namespace FileinFolder
                     {
                         idirCount++;
                         FileDir.Add(dir.FullName, dir.Name);
-                        TotalSize += dir.Length / 1024 / 1024;
+                        TotalSize += dir.Length / 1024f / 1024f;//计算文件大小
                         Config.messageClass.MessageSend(new MessageEventArgs("搜索:" + dir.FullName, MessageType.FolderPath));
                         Config.messageClass.MessageSend(new MessageEventArgs(fProgress(icount), MessageType.Progress));
                         isearch++;
